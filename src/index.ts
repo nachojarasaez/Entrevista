@@ -1,9 +1,8 @@
-import express from 'express';
+import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import * as logger from 'morgan';
 import appRouter from './routers/app';
 const { PORT = 3000 } = process.env;
 
@@ -15,7 +14,6 @@ const allowControlOrigin = (req: any, res: any, next: any): void => {
 };
 
 const app = express();
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cors({origin: '*'}));
 app.use(allowControlOrigin);
