@@ -4,8 +4,8 @@ import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import * as logger from 'morgan';
-import appRouter from './routes/app';
-const { PORT = 4466 } = process.env;
+import appRouter from './routers/app';
+const { PORT = 3000 } = process.env;
 
 const allowControlOrigin = (req: any, res: any, next: any): void => {
   res.header("Access-Control-Allow-Origin", "*");

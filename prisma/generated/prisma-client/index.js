@@ -13,7 +13,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Weiter",
+    name: "Waiter",
     embedded: false
   },
   {
@@ -24,6 +24,6 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `https://transactions-b00eac2ea2.herokuapp.com/toteat`
 });
 exports.prisma = new exports.Prisma();

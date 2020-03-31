@@ -6,7 +6,7 @@ type Transaction {
   zone: String
   dateOpen: DateTime!
   dateClose: DateTime!
-  weiter: Weiter! @relation(name: "WeiterByTransaction")
+  waiter: Waiter! @relation(name: "WaiterByTransaction")
   payments: [Payment!]! @relation(name: "PaymentsByTransaction", onDelete: CASCADE)
   products: [Product!]! @relation(name: "ProductsByTransaction")
 
@@ -19,7 +19,7 @@ type Payment {
   transaction: Transaction! @relation(name: "PaymentsByTransaction")
 }
 
-type Weiter {
+type Waiter {
   id: ID! @id
   name: String!
 }

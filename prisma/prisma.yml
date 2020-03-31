@@ -1,6 +1,10 @@
-endpoint: http://localhost:4466
+endpoint: https://transactions-b00eac2ea2.herokuapp.com/toteat
 datamodel: datamodel.prisma
 
 generate:
   - generator: javascript-client
     output: ./generated/prisma-client/
+
+hooks:
+  post-deploy:
+    - prisma generate
