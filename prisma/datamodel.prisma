@@ -1,7 +1,35 @@
+type Transaction {
+  id: ID! @id
+  name: String!
+  table: Int!
+  clientName: String
+  zone: String
+  dateOpen: DateTime!
+  dateClose: DateTime!
+  weiter: Weiter! @relation(name: "WeiterByTransaction")
+  payments: [Payment!]! @relation(name: "PaymentsByTransaction", onDelete: CASCADE)
+  products: [Product!]! @relation(name: "ProductsByTransaction")
 
+}
 
-type User {
-   id: ID! @id
+type Payment {
+  id: ID! @id
+  amount: Int!
+  type: String!
+  transaction: Transaction! @relation(name: "PaymentsByTransaction")
+}
+
+type Weiter {
+  id: ID! @id
   name: String!
 }
+
+type Product {
+  id: ID! @id
+  name: String!
+  category: String!
+  price: Int!
+  quantity: Int!
+}
+
 

@@ -3,7 +3,19 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregatePayment {
+  count: Int!
+}
+
+type AggregateProduct {
+  count: Int!
+}
+
+type AggregateTransaction {
+  count: Int!
+}
+
+type AggregateWeiter {
   count: Int!
 }
 
@@ -11,15 +23,35 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createPayment(data: PaymentCreateInput!): Payment!
+  updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
+  updateManyPayments(data: PaymentUpdateManyMutationInput!, where: PaymentWhereInput): BatchPayload!
+  upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
+  deletePayment(where: PaymentWhereUniqueInput!): Payment
+  deleteManyPayments(where: PaymentWhereInput): BatchPayload!
+  createProduct(data: ProductCreateInput!): Product!
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  createTransaction(data: TransactionCreateInput!): Transaction!
+  updateTransaction(data: TransactionUpdateInput!, where: TransactionWhereUniqueInput!): Transaction
+  updateManyTransactions(data: TransactionUpdateManyMutationInput!, where: TransactionWhereInput): BatchPayload!
+  upsertTransaction(where: TransactionWhereUniqueInput!, create: TransactionCreateInput!, update: TransactionUpdateInput!): Transaction!
+  deleteTransaction(where: TransactionWhereUniqueInput!): Transaction
+  deleteManyTransactions(where: TransactionWhereInput): BatchPayload!
+  createWeiter(data: WeiterCreateInput!): Weiter!
+  updateWeiter(data: WeiterUpdateInput!, where: WeiterWhereUniqueInput!): Weiter
+  updateManyWeiters(data: WeiterUpdateManyMutationInput!, where: WeiterWhereInput): BatchPayload!
+  upsertWeiter(where: WeiterWhereUniqueInput!, create: WeiterCreateInput!, update: WeiterUpdateInput!): Weiter!
+  deleteWeiter(where: WeiterWhereUniqueInput!): Weiter
+  deleteManyWeiters(where: WeiterWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -39,77 +71,267 @@ type PageInfo {
   endCursor: String
 }
 
-type Query {
-  user(where: UserWhereUniqueInput!): User
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  node(id: ID!): Node
-}
-
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type User {
+type Payment {
   id: ID!
-  name: String!
+  amount: Int!
+  type: String!
+  transaction: Transaction!
 }
 
-type UserConnection {
+type PaymentConnection {
   pageInfo: PageInfo!
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [PaymentEdge]!
+  aggregate: AggregatePayment!
 }
 
-input UserCreateInput {
+input PaymentCreateInput {
   id: ID
-  name: String!
+  amount: Int!
+  type: String!
+  transaction: TransactionCreateOneWithoutPaymentsInput!
 }
 
-type UserEdge {
-  node: User!
+input PaymentCreateManyWithoutTransactionInput {
+  create: [PaymentCreateWithoutTransactionInput!]
+  connect: [PaymentWhereUniqueInput!]
+}
+
+input PaymentCreateWithoutTransactionInput {
+  id: ID
+  amount: Int!
+  type: String!
+}
+
+type PaymentEdge {
+  node: Payment!
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum PaymentOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  amount_ASC
+  amount_DESC
+  type_ASC
+  type_DESC
 }
 
-type UserPreviousValues {
+type PaymentPreviousValues {
   id: ID!
-  name: String!
+  amount: Int!
+  type: String!
 }
 
-type UserSubscriptionPayload {
+input PaymentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [PaymentScalarWhereInput!]
+  OR: [PaymentScalarWhereInput!]
+  NOT: [PaymentScalarWhereInput!]
+}
+
+type PaymentSubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: Payment
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: PaymentPreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input PaymentSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
-  AND: [UserSubscriptionWhereInput!]
-  OR: [UserSubscriptionWhereInput!]
-  NOT: [UserSubscriptionWhereInput!]
+  node: PaymentWhereInput
+  AND: [PaymentSubscriptionWhereInput!]
+  OR: [PaymentSubscriptionWhereInput!]
+  NOT: [PaymentSubscriptionWhereInput!]
 }
 
-input UserUpdateInput {
-  name: String
+input PaymentUpdateInput {
+  amount: Int
+  type: String
+  transaction: TransactionUpdateOneRequiredWithoutPaymentsInput
 }
 
-input UserUpdateManyMutationInput {
-  name: String
+input PaymentUpdateManyDataInput {
+  amount: Int
+  type: String
 }
 
-input UserWhereInput {
+input PaymentUpdateManyMutationInput {
+  amount: Int
+  type: String
+}
+
+input PaymentUpdateManyWithoutTransactionInput {
+  create: [PaymentCreateWithoutTransactionInput!]
+  delete: [PaymentWhereUniqueInput!]
+  connect: [PaymentWhereUniqueInput!]
+  set: [PaymentWhereUniqueInput!]
+  disconnect: [PaymentWhereUniqueInput!]
+  update: [PaymentUpdateWithWhereUniqueWithoutTransactionInput!]
+  upsert: [PaymentUpsertWithWhereUniqueWithoutTransactionInput!]
+  deleteMany: [PaymentScalarWhereInput!]
+  updateMany: [PaymentUpdateManyWithWhereNestedInput!]
+}
+
+input PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput!
+  data: PaymentUpdateManyDataInput!
+}
+
+input PaymentUpdateWithoutTransactionDataInput {
+  amount: Int
+  type: String
+}
+
+input PaymentUpdateWithWhereUniqueWithoutTransactionInput {
+  where: PaymentWhereUniqueInput!
+  data: PaymentUpdateWithoutTransactionDataInput!
+}
+
+input PaymentUpsertWithWhereUniqueWithoutTransactionInput {
+  where: PaymentWhereUniqueInput!
+  update: PaymentUpdateWithoutTransactionDataInput!
+  create: PaymentCreateWithoutTransactionInput!
+}
+
+input PaymentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  transaction: TransactionWhereInput
+  AND: [PaymentWhereInput!]
+  OR: [PaymentWhereInput!]
+  NOT: [PaymentWhereInput!]
+}
+
+input PaymentWhereUniqueInput {
+  id: ID
+}
+
+type Product {
+  id: ID!
+  name: String!
+  category: String!
+  price: Int!
+  quantity: Int!
+}
+
+type ProductConnection {
+  pageInfo: PageInfo!
+  edges: [ProductEdge]!
+  aggregate: AggregateProduct!
+}
+
+input ProductCreateInput {
+  id: ID
+  name: String!
+  category: String!
+  price: Int!
+  quantity: Int!
+}
+
+input ProductCreateManyInput {
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+enum ProductOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  category_ASC
+  category_DESC
+  price_ASC
+  price_DESC
+  quantity_ASC
+  quantity_DESC
+}
+
+type ProductPreviousValues {
+  id: ID!
+  name: String!
+  category: String!
+  price: Int!
+  quantity: Int!
+}
+
+input ProductScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -138,12 +360,561 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
+  category: String
+  category_not: String
+  category_in: [String!]
+  category_not_in: [String!]
+  category_lt: String
+  category_lte: String
+  category_gt: String
+  category_gte: String
+  category_contains: String
+  category_not_contains: String
+  category_starts_with: String
+  category_not_starts_with: String
+  category_ends_with: String
+  category_not_ends_with: String
+  price: Int
+  price_not: Int
+  price_in: [Int!]
+  price_not_in: [Int!]
+  price_lt: Int
+  price_lte: Int
+  price_gt: Int
+  price_gte: Int
+  quantity: Int
+  quantity_not: Int
+  quantity_in: [Int!]
+  quantity_not_in: [Int!]
+  quantity_lt: Int
+  quantity_lte: Int
+  quantity_gt: Int
+  quantity_gte: Int
+  AND: [ProductScalarWhereInput!]
+  OR: [ProductScalarWhereInput!]
+  NOT: [ProductScalarWhereInput!]
 }
 
-input UserWhereUniqueInput {
+type ProductSubscriptionPayload {
+  mutation: MutationType!
+  node: Product
+  updatedFields: [String!]
+  previousValues: ProductPreviousValues
+}
+
+input ProductSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProductWhereInput
+  AND: [ProductSubscriptionWhereInput!]
+  OR: [ProductSubscriptionWhereInput!]
+  NOT: [ProductSubscriptionWhereInput!]
+}
+
+input ProductUpdateDataInput {
+  name: String
+  category: String
+  price: Int
+  quantity: Int
+}
+
+input ProductUpdateInput {
+  name: String
+  category: String
+  price: Int
+  quantity: Int
+}
+
+input ProductUpdateManyDataInput {
+  name: String
+  category: String
+  price: Int
+  quantity: Int
+}
+
+input ProductUpdateManyInput {
+  create: [ProductCreateInput!]
+  update: [ProductUpdateWithWhereUniqueNestedInput!]
+  upsert: [ProductUpsertWithWhereUniqueNestedInput!]
+  delete: [ProductWhereUniqueInput!]
+  connect: [ProductWhereUniqueInput!]
+  set: [ProductWhereUniqueInput!]
+  disconnect: [ProductWhereUniqueInput!]
+  deleteMany: [ProductScalarWhereInput!]
+  updateMany: [ProductUpdateManyWithWhereNestedInput!]
+}
+
+input ProductUpdateManyMutationInput {
+  name: String
+  category: String
+  price: Int
+  quantity: Int
+}
+
+input ProductUpdateManyWithWhereNestedInput {
+  where: ProductScalarWhereInput!
+  data: ProductUpdateManyDataInput!
+}
+
+input ProductUpdateWithWhereUniqueNestedInput {
+  where: ProductWhereUniqueInput!
+  data: ProductUpdateDataInput!
+}
+
+input ProductUpsertWithWhereUniqueNestedInput {
+  where: ProductWhereUniqueInput!
+  update: ProductUpdateDataInput!
+  create: ProductCreateInput!
+}
+
+input ProductWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  category: String
+  category_not: String
+  category_in: [String!]
+  category_not_in: [String!]
+  category_lt: String
+  category_lte: String
+  category_gt: String
+  category_gte: String
+  category_contains: String
+  category_not_contains: String
+  category_starts_with: String
+  category_not_starts_with: String
+  category_ends_with: String
+  category_not_ends_with: String
+  price: Int
+  price_not: Int
+  price_in: [Int!]
+  price_not_in: [Int!]
+  price_lt: Int
+  price_lte: Int
+  price_gt: Int
+  price_gte: Int
+  quantity: Int
+  quantity_not: Int
+  quantity_in: [Int!]
+  quantity_not_in: [Int!]
+  quantity_lt: Int
+  quantity_lte: Int
+  quantity_gt: Int
+  quantity_gte: Int
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+}
+
+input ProductWhereUniqueInput {
+  id: ID
+}
+
+type Query {
+  payment(where: PaymentWhereUniqueInput!): Payment
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
+  paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
+  product(where: ProductWhereUniqueInput!): Product
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  transaction(where: TransactionWhereUniqueInput!): Transaction
+  transactions(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Transaction]!
+  transactionsConnection(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TransactionConnection!
+  weiter(where: WeiterWhereUniqueInput!): Weiter
+  weiters(where: WeiterWhereInput, orderBy: WeiterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Weiter]!
+  weitersConnection(where: WeiterWhereInput, orderBy: WeiterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WeiterConnection!
+  node(id: ID!): Node
+}
+
+type Subscription {
+  payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
+  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  transaction(where: TransactionSubscriptionWhereInput): TransactionSubscriptionPayload
+  weiter(where: WeiterSubscriptionWhereInput): WeiterSubscriptionPayload
+}
+
+type Transaction {
+  id: ID!
+  name: String!
+  table: Int!
+  clientName: String
+  zone: String
+  dateOpen: DateTime!
+  dateClose: DateTime!
+  weiter: Weiter!
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product!]
+}
+
+type TransactionConnection {
+  pageInfo: PageInfo!
+  edges: [TransactionEdge]!
+  aggregate: AggregateTransaction!
+}
+
+input TransactionCreateInput {
+  id: ID
+  name: String!
+  table: Int!
+  clientName: String
+  zone: String
+  dateOpen: DateTime!
+  dateClose: DateTime!
+  weiter: WeiterCreateOneInput!
+  payments: PaymentCreateManyWithoutTransactionInput
+  products: ProductCreateManyInput
+}
+
+input TransactionCreateOneWithoutPaymentsInput {
+  create: TransactionCreateWithoutPaymentsInput
+  connect: TransactionWhereUniqueInput
+}
+
+input TransactionCreateWithoutPaymentsInput {
+  id: ID
+  name: String!
+  table: Int!
+  clientName: String
+  zone: String
+  dateOpen: DateTime!
+  dateClose: DateTime!
+  weiter: WeiterCreateOneInput!
+  products: ProductCreateManyInput
+}
+
+type TransactionEdge {
+  node: Transaction!
+  cursor: String!
+}
+
+enum TransactionOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  table_ASC
+  table_DESC
+  clientName_ASC
+  clientName_DESC
+  zone_ASC
+  zone_DESC
+  dateOpen_ASC
+  dateOpen_DESC
+  dateClose_ASC
+  dateClose_DESC
+}
+
+type TransactionPreviousValues {
+  id: ID!
+  name: String!
+  table: Int!
+  clientName: String
+  zone: String
+  dateOpen: DateTime!
+  dateClose: DateTime!
+}
+
+type TransactionSubscriptionPayload {
+  mutation: MutationType!
+  node: Transaction
+  updatedFields: [String!]
+  previousValues: TransactionPreviousValues
+}
+
+input TransactionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TransactionWhereInput
+  AND: [TransactionSubscriptionWhereInput!]
+  OR: [TransactionSubscriptionWhereInput!]
+  NOT: [TransactionSubscriptionWhereInput!]
+}
+
+input TransactionUpdateInput {
+  name: String
+  table: Int
+  clientName: String
+  zone: String
+  dateOpen: DateTime
+  dateClose: DateTime
+  weiter: WeiterUpdateOneRequiredInput
+  payments: PaymentUpdateManyWithoutTransactionInput
+  products: ProductUpdateManyInput
+}
+
+input TransactionUpdateManyMutationInput {
+  name: String
+  table: Int
+  clientName: String
+  zone: String
+  dateOpen: DateTime
+  dateClose: DateTime
+}
+
+input TransactionUpdateOneRequiredWithoutPaymentsInput {
+  create: TransactionCreateWithoutPaymentsInput
+  update: TransactionUpdateWithoutPaymentsDataInput
+  upsert: TransactionUpsertWithoutPaymentsInput
+  connect: TransactionWhereUniqueInput
+}
+
+input TransactionUpdateWithoutPaymentsDataInput {
+  name: String
+  table: Int
+  clientName: String
+  zone: String
+  dateOpen: DateTime
+  dateClose: DateTime
+  weiter: WeiterUpdateOneRequiredInput
+  products: ProductUpdateManyInput
+}
+
+input TransactionUpsertWithoutPaymentsInput {
+  update: TransactionUpdateWithoutPaymentsDataInput!
+  create: TransactionCreateWithoutPaymentsInput!
+}
+
+input TransactionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  table: Int
+  table_not: Int
+  table_in: [Int!]
+  table_not_in: [Int!]
+  table_lt: Int
+  table_lte: Int
+  table_gt: Int
+  table_gte: Int
+  clientName: String
+  clientName_not: String
+  clientName_in: [String!]
+  clientName_not_in: [String!]
+  clientName_lt: String
+  clientName_lte: String
+  clientName_gt: String
+  clientName_gte: String
+  clientName_contains: String
+  clientName_not_contains: String
+  clientName_starts_with: String
+  clientName_not_starts_with: String
+  clientName_ends_with: String
+  clientName_not_ends_with: String
+  zone: String
+  zone_not: String
+  zone_in: [String!]
+  zone_not_in: [String!]
+  zone_lt: String
+  zone_lte: String
+  zone_gt: String
+  zone_gte: String
+  zone_contains: String
+  zone_not_contains: String
+  zone_starts_with: String
+  zone_not_starts_with: String
+  zone_ends_with: String
+  zone_not_ends_with: String
+  dateOpen: DateTime
+  dateOpen_not: DateTime
+  dateOpen_in: [DateTime!]
+  dateOpen_not_in: [DateTime!]
+  dateOpen_lt: DateTime
+  dateOpen_lte: DateTime
+  dateOpen_gt: DateTime
+  dateOpen_gte: DateTime
+  dateClose: DateTime
+  dateClose_not: DateTime
+  dateClose_in: [DateTime!]
+  dateClose_not_in: [DateTime!]
+  dateClose_lt: DateTime
+  dateClose_lte: DateTime
+  dateClose_gt: DateTime
+  dateClose_gte: DateTime
+  weiter: WeiterWhereInput
+  payments_every: PaymentWhereInput
+  payments_some: PaymentWhereInput
+  payments_none: PaymentWhereInput
+  products_every: ProductWhereInput
+  products_some: ProductWhereInput
+  products_none: ProductWhereInput
+  AND: [TransactionWhereInput!]
+  OR: [TransactionWhereInput!]
+  NOT: [TransactionWhereInput!]
+}
+
+input TransactionWhereUniqueInput {
+  id: ID
+}
+
+type Weiter {
+  id: ID!
+  name: String!
+}
+
+type WeiterConnection {
+  pageInfo: PageInfo!
+  edges: [WeiterEdge]!
+  aggregate: AggregateWeiter!
+}
+
+input WeiterCreateInput {
+  id: ID
+  name: String!
+}
+
+input WeiterCreateOneInput {
+  create: WeiterCreateInput
+  connect: WeiterWhereUniqueInput
+}
+
+type WeiterEdge {
+  node: Weiter!
+  cursor: String!
+}
+
+enum WeiterOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type WeiterPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type WeiterSubscriptionPayload {
+  mutation: MutationType!
+  node: Weiter
+  updatedFields: [String!]
+  previousValues: WeiterPreviousValues
+}
+
+input WeiterSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: WeiterWhereInput
+  AND: [WeiterSubscriptionWhereInput!]
+  OR: [WeiterSubscriptionWhereInput!]
+  NOT: [WeiterSubscriptionWhereInput!]
+}
+
+input WeiterUpdateDataInput {
+  name: String
+}
+
+input WeiterUpdateInput {
+  name: String
+}
+
+input WeiterUpdateManyMutationInput {
+  name: String
+}
+
+input WeiterUpdateOneRequiredInput {
+  create: WeiterCreateInput
+  update: WeiterUpdateDataInput
+  upsert: WeiterUpsertNestedInput
+  connect: WeiterWhereUniqueInput
+}
+
+input WeiterUpsertNestedInput {
+  update: WeiterUpdateDataInput!
+  create: WeiterCreateInput!
+}
+
+input WeiterWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [WeiterWhereInput!]
+  OR: [WeiterWhereInput!]
+  NOT: [WeiterWhereInput!]
+}
+
+input WeiterWhereUniqueInput {
   id: ID
 }
 `
