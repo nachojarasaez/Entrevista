@@ -23,7 +23,7 @@
     "in": "^0.17.0",
     "jsonwebtoken": "^8.5.0",
     "lodash": "^4.17.11",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.35",
     "morgan": "~1.9.0",
     "node": "^11.0.0",
     "prisma-client-lib": "^1.34.10",
